@@ -1,7 +1,7 @@
-# Federated Learning Optimization: Applying communication and computation efficiency to aggregation algorithms
+# FedOpt: Applying communication and computation efficiency to aggregation algorithms
 
 ## FedOpt Overview
-FedOpt is a Python package designed for testing and evaluating various communication protocols in federated learning environments. The package aims to provide a flexible and extensible framework for developers and researchers to assess the performance of communication protocols in the context of federated learning.
+FedOpt is a FL framework designed for testing and evaluating various communication protocols in federated learning environments. The framework aims to provide a flexible and extensible framework for developers and researchers to assess the performance of communication protocols in the context of federated learning.
 
 ## Features
 
