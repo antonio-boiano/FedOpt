@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0c\x46\x65\x64Opt.proto\x1a\x1bgoogle/protobuf/empty.proto\"X\n\x07Message\x12\x0f\n\x07payload\x18\x01 \x01(\t\x12\x14\n\x07\x61\x64\x64ress\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x11\n\x04port\x18\x03 \x01(\tH\x01\x88\x01\x01\x42\n\n\x08_addressB\x07\n\x05_port2s\n\rCommunication\x12\x30\n\x0cSendToServer\x12\x08.Message\x1a\x16.google.protobuf.Empty\x12\x30\n\x0cSendToClient\x12\x08.Message\x1a\x16.google.protobuf.Emptyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0c\x46\x65\x64Opt.proto\x1a\x1bgoogle/protobuf/empty.proto\"X\n\x07Message\x12\x0f\n\x07payload\x18\x01 \x01(\t\x12\x14\n\x07\x61\x64\x64ress\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x11\n\x04port\x18\x03 \x01(\tH\x01\x88\x01\x01\x42\n\n\x08_addressB\x07\n\x05_port2\x95\x01\n\rCommunication\x12\x30\n\x0cSendToServer\x12\x08.Message\x1a\x16.google.protobuf.Empty\x12\x30\n\x0cSendToClient\x12\x08.Message\x1a\x16.google.protobuf.Empty\x12 \n\x06Stream\x12\x08.Message\x1a\x08.Message(\x01\x30\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,6 +34,6 @@ if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_MESSAGE']._serialized_start=45
   _globals['_MESSAGE']._serialized_end=133
-  _globals['_COMMUNICATION']._serialized_start=135
-  _globals['_COMMUNICATION']._serialized_end=250
+  _globals['_COMMUNICATION']._serialized_start=136
+  _globals['_COMMUNICATION']._serialized_end=285
 # @@protoc_insertion_point(module_scope)

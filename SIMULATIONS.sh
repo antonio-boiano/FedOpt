@@ -1,20 +1,15 @@
 #!/bin/bash
 
 # Working directory (current directory)
-WORKSPACE_DIR=$(pwd)  # This will set WORKSPACE_DIR to the current directory
-
-# Timestamp to rename the log files uniquely
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+WORKSPACE_DIR=$(pwd)
 
 # Function to terminate all Python processes and free the port
 cleanup() {
-    echo "Terminating all Python processes..."
-    pkill python  # Kills all running Python processes
-
+    echo "Cleaning up background jobs..."
+    kill $(jobs -p) 2>/dev/null
     echo "Freeing port $1 if occupied..."
     lsof -ti :$1 | xargs kill -9 2>/dev/null
-
-    echo "Cleanup completed!"
+    echo "Cleanup completed."
 }
 
 # Function to run a simulation and save the output in the log file
@@ -29,20 +24,23 @@ run_simulation() {
     local variant=$8
     local file_name=$9
 
+
     local log_file="$LOG_DIR/${mode}_${client_number}.log"
     
     echo "Running: mode=$mode, fl_method=$fl_method, port=$port"
-    ~/anaconda3/envs/fedOpt/bin/python "$WORKSPACE_DIR/FedOpt/src/run.py" --mode "$mode" --protocol "$protocol" --port "$port" --fl_method "$fl_method"  --alpha "$alpha" --accuracy_file "$file_name" &> "$log_file" &
+    ~/anaconda3/envs/fedOpt/bin/python "$WORKSPACE_DIR/FedOpt/src/run.py" --mode "$mode" --rounds 5 --protocol "$protocol" --port "$port"  --fl_method "$fl_method"  --alpha "$alpha" --accuracy_file "$file_name" &> "$log_file" &
     echo "Log saved to $log_file"
 }
 
-
-
-PORT=50051
+PORT="8082"
 PROTOCOL="grpc"
+
+# PORT=1883
+# PROTOCOL="mqtt"
+
 NUM_CLIENTS=5
 
-ALGORITHMs=("FedAvgN")
+ALGORITHMs=("Unweighted")
 MUs=(0.1)
 ALPHA=(10)
 VARIANTS=("hinge" "polynomial")
@@ -63,15 +61,15 @@ VARIANTS=("hinge" "polynomial")
 # VARIANTS=("hinge" "polynomial")
 
 # Run cleanup before starting new simulations
-# cleanup "$PORT"
+cleanup "$PORT"
 
 # # If using MQTT protocol, start the Mosquitto server
-# if [ "$PROTOCOL" == "mqtt" ]; then
-#     mosquitto -p "$PORT" -d
-# fi
+if [ "$PROTOCOL" == "mqtt" ]; then
+    mosquitto -p "$PORT" -d
+fi
 
 # Ensure cleanup runs when the script exits
-# trap 'cleanup "$PORT"' EXIT
+trap 'cleanup "$PORT"' EXIT
 
 # Loop through the algorithms
 # Create a directory for logs (if it doesn't exist)
@@ -82,6 +80,7 @@ for alpha in "${ALPHA[@]}"; do
                 for MU_0 in "${MUs[@]}"; do
                     echo "Starting simulations for algorithm: $ALGORITHM"
                     LOG_DIR="$WORKSPACE_DIR/logs/$PROTOCOL/$ALGORITHM/$variant/alpha${alpha}_10clients_2"
+                    rm -rf "$LOG_DIR"
                     mkdir -p "$LOG_DIR"
 
                     # Start the server
@@ -100,6 +99,7 @@ for alpha in "${ALPHA[@]}"; do
             for MU_0 in "${MUs[@]}"; do
                 echo "Starting simulations for algorithm: $ALGORITHM"
                 LOG_DIR="$WORKSPACE_DIR/logs/$PROTOCOL/$ALGORITHM/alpha${alpha}_10clients_2"
+                rm -rf "$LOG_DIR"
                 mkdir -p "$LOG_DIR"
 
                 # Start the server

@@ -210,7 +210,13 @@ class MedMNIST:
             subset_test_data = Subset(self.test_data, list(range(test_size)))
             self.test_loader = DataLoader(subset_test_data, batch_size=self.test_batch_size, shuffle=False, pin_memory=True)
         else:
-            self.test_loader = DataLoader(self.test_data, batch_size=self.test_batch_size, shuffle=False, num_workers=4, pin_memory=True)
+            self.test_loader = DataLoader(
+                self.test_data,
+                batch_size=self.test_batch_size,
+                shuffle=False,
+                num_workers=0,
+                pin_memory=False,
+            )
 
 
 class MedMNIST2: 
@@ -289,7 +295,13 @@ class MedMNIST2:
             subset_test_data = Subset(self.test_data, list(range(test_size)))
             self.test_loader = DataLoader(subset_test_data, batch_size=self.test_batch_size, shuffle=False, pin_memory=True)
         else:
-            self.test_loader = DataLoader(self.test_data, batch_size=self.test_batch_size, shuffle=False, num_workers=4, pin_memory=True)
+            self.test_loader = DataLoader(
+                self.test_data,
+                batch_size=self.test_batch_size,
+                shuffle=False,
+                num_workers=0,
+                pin_memory=False,
+            )
         
 
 

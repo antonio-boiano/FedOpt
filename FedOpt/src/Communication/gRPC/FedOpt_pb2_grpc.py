@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-from . import FedOpt_pb2 as FedOpt__pb2
+import FedOpt_pb2 as FedOpt__pb2
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 GRPC_GENERATED_VERSION = '1.75.1'
@@ -45,6 +45,11 @@ class CommunicationStub(object):
                 request_serializer=FedOpt__pb2.Message.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 _registered_method=True)
+        self.Stream = channel.stream_stream(
+                '/Communication/Stream',
+                request_serializer=FedOpt__pb2.Message.SerializeToString,
+                response_deserializer=FedOpt__pb2.Message.FromString,
+                _registered_method=True)
 
 
 class CommunicationServicer(object):
@@ -62,6 +67,12 @@ class CommunicationServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Stream(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_CommunicationServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -74,6 +85,11 @@ def add_CommunicationServicer_to_server(servicer, server):
                     servicer.SendToClient,
                     request_deserializer=FedOpt__pb2.Message.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'Stream': grpc.stream_stream_rpc_method_handler(
+                    servicer.Stream,
+                    request_deserializer=FedOpt__pb2.Message.FromString,
+                    response_serializer=FedOpt__pb2.Message.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -130,6 +146,33 @@ class Communication(object):
             '/Communication/SendToClient',
             FedOpt__pb2.Message.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Stream(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(
+            request_iterator,
+            target,
+            '/Communication/Stream',
+            FedOpt__pb2.Message.SerializeToString,
+            FedOpt__pb2.Message.FromString,
             options,
             channel_credentials,
             insecure,

@@ -27,6 +27,21 @@ class FedAvgN(AbstractAggregation):
             with torch.no_grad():
                 if aggregated_dict is not None:
                     for _, msg in aggregated_dict.items():
+                        # Support payloads that arrived as JSON strings
+                        if isinstance(msg, str):
+                            import json
+                            if not msg.strip():
+                                logger.warning("Skipping empty client payload string")
+                                continue
+                            try:
+                                msg = json.loads(msg)
+                            except json.JSONDecodeError as exc:
+                                logger.warning(f"Skipping invalid JSON payload: {exc}")
+                                continue
+                        if not isinstance(msg, dict) or "client_model" not in msg:
+                            logger.warning(f"Skipping malformed client payload of type {type(msg)}")
+                            continue
+
                         for a_y, y in zip(avg_y, json_to_tensor_list(msg["client_model"], self.device)):
                             a_y.data.add_(y.data / clients_round)
 

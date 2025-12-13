@@ -11,4 +11,5 @@ message Message {
 service Communication {
   rpc SendToServer(Message) returns (google.protobuf.Empty);
   rpc SendToClient(Message) returns (google.protobuf.Empty);
+  rpc Stream(stream Message) returns (stream Message);
 }

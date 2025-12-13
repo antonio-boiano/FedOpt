@@ -1,6 +1,9 @@
 *.zip
 *.Identifier
-
+logs/*
+log/*
+log/
+logs/
 ## PyCharm
 .idea/*
 **/Data/*
