@@ -28,7 +28,7 @@ run_simulation() {
     local log_file="$LOG_DIR/${mode}_${client_number}.log"
     
     echo "Running: mode=$mode, fl_method=$fl_method, port=$port"
-    ~/anaconda3/envs/fedOpt/bin/python "$WORKSPACE_DIR/FedOpt/src/run.py" --mode "$mode" --rounds 5 --protocol "$protocol" --port "$port"  --fl_method "$fl_method"  --alpha "$alpha" --accuracy_file "$file_name" &> "$log_file" &
+    python3 "$WORKSPACE_DIR/FedOpt/src/run.py" --mode "$mode" --rounds 5 --protocol "$protocol" --port "$port"  --fl_method "$fl_method"  --alpha "$alpha" --accuracy_file "$file_name" &> "$log_file" &
     echo "Log saved to $log_file"
 }
 
