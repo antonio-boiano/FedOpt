@@ -32,7 +32,6 @@ RUN wget https://www.emqx.com/en/downloads/enterprise/5.10.0/emqx-enterprise-5.1
     && apt install -y ./emqx-enterprise-5.10.0-ubuntu22.04-amd64.deb \
     && rm emqx-enterprise-5.10.0-ubuntu22.04-amd64.deb
 
-COPY ../emqx-base.hocon /etc/emqx/base.hocon
 
 WORKDIR /usr/src/app
 
