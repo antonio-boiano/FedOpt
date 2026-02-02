@@ -28,15 +28,15 @@ run_simulation() {
     local log_file="$LOG_DIR/${mode}_${client_number}.log"
     
     echo "Running: mode=$mode, fl_method=$fl_method, port=$port"
-    python3 "$WORKSPACE_DIR/FedOpt/src/run.py" --mode "$mode" --rounds 5 --protocol "$protocol" --port "$port"  --fl_method "$fl_method"  --alpha "$alpha" --accuracy_file "$file_name" &> "$log_file" &
+    python3 "$WORKSPACE_DIR/FedOpt/src/run.py" --mode "$mode" --rounds 5 --protocol "$protocol" --port "$port"  --fl_method "$fl_method"  --alpha "$alpha" --accuracy_file "$file_name" --index "$client_number" &> "$log_file" &
     echo "Log saved to $log_file"
 }
 
-PORT="8082"
-PROTOCOL="grpc"
+# PORT="8082"
+# PROTOCOL="grpc"
 
-# PORT=1883
-# PROTOCOL="mqtt"
+PORT=1883
+PROTOCOL="mqtt"
 
 NUM_CLIENTS=5
 

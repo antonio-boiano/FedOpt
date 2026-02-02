@@ -41,7 +41,7 @@ class MQTTClient(BaseClient):
         logger.debug(f"Client ID: {self.client_id}")
         
         # MQTT client setup
-        self.mqtt_client = mqtt.Client()
+        self.mqtt_client = mqtt.Client(client_id=self.client_id)
         self.mqtt_client.on_connect = self._on_connect
         self.mqtt_client.on_message = self._on_message
         
@@ -58,6 +58,9 @@ class MQTTClient(BaseClient):
     
     def _generate_client_id(self) -> str:
         """Generate a unique client ID."""
+        if self.index is not None:
+            return str(self.index)
+
         localhost_range = ['127.0.0.1', 'localhost', '127.0.1.1', '::1', 
                           '0:0:0:0:0:0:0:1', '0:0:0:0:0:0:0:0', '::']
         
@@ -253,4 +256,3 @@ class MQTTServer(BaseServer):
             
         except Exception as e:
             logger.error(f"Error handling message: {e}")
-
